@@ -45,7 +45,7 @@ express()
     user.id = user._id;
     // http://mongoosejs.com/docs/api.html#model_Model-save
     user.save(function (err) {
-      res.json(200, todo);
+      res.json(200, err);
     });
   })
 
