@@ -14,6 +14,8 @@ var express  = require('express'),
 
     User = mongoose.model('User', Schema);
 
+    var app = express();
+
 /*
  * MONGOLAB_URI=mongodb://Clement:clement@ds033744.mongolab.com:33744/gameswap
  * MONGOLAB_URI=mongodb://Alexis:alexis@ds033744.mongolab.com:33744/gameswap
@@ -23,9 +25,14 @@ mongoose.connect(process.env.MONGOLAB_URI, function (error) {
     else console.log('mongo connected');
 });
 
-var API_BASE_PATH = "/api/v1"
+var API_BASE_PATH = "/api/v1";
 
-express()
+app
+  .use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  }) 
   .use(bodyParser.json()) // support json encoded bodies
   .use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
 
