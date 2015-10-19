@@ -4,9 +4,10 @@ var auth = {
  
   login: function(req, res) {
  
-    var username = req.body.username || '';
+    var username = req.body.firstName || '';
  
-    if (username == '' || password == '') {
+    // if (username == '' || password == '') {
+    if(username == '') {
       res.status(401);
       res.json({
         "status": 401,
@@ -37,10 +38,10 @@ var auth = {
  
   },
  
-  validate: function(username, password) {
+  validate: function(username) {
     // spoofing the DB response for simplicity
     var dbUserObj = { // spoofing a userobject from the DB. 
-      username: 'arvind@myapp.com'
+      firstName: username
     };
     
     return dbUserObj;

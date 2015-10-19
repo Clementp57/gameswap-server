@@ -3,8 +3,11 @@
 var express = require('express'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
+    fs = require('fs'),
+    https = require('https'),
     
     routes = require('./routes/index'),
+    public_routes = require('./routes/public'),
     users = require('./routes/users'),
     events = require('./routes/events'),
     annoncements = require('./routes/annoncements');
@@ -17,7 +20,7 @@ var express = require('express'),
  */
 mongoose.connect(process.env.MONGOLAB_URI, function(error) {
     if (error) console.error(error);
-    else console.log('mongo connected');
+    else console.log('Mongodb connexion established');
 });
 
 var API_BASE_PATH = "/api/v1";
@@ -41,14 +44,26 @@ server.get(API_BASE_PATH, function(req, res) {
         msg: 'OK'
     });
 });
-    
-server.use(express.static(__dirname + '/'));
 
+// Auth Middleware - This will check if the token is valid
+// Only the requests that start with /api/v1/* will be checked for the token.
+// Any URL's that do not follow the below pattern should be avoided unless you 
+// are sure that authentication is not needed
+server.all('/login', public_routes);
+server.all(API_BASE_PATH + '/*' , [require('./middlewares/validateRequest')]);
+
+server.use(express.static(__dirname + '/'));
 server.use(API_BASE_PATH, routes);
 server.use(API_BASE_PATH+'/users', users);
 server.use(API_BASE_PATH + '/annoncements', annoncements);
 server.use(API_BASE_PATH + '/events', events);
 
-server.listen(process.env.PORT || 5000);
 
-//module.exports = server;
+// Create Https server
+https.createServer({
+  key: fs.readFileSync('./ssl/key.pem'),
+  cert: fs.readFileSync('./ssl/cert.pem')
+}, server).listen((process.env.port || 55555), function() {
+    console.info('Https server running on https://localhost:' + (process.env.port || 55555));
+});
+
