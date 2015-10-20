@@ -59,11 +59,17 @@ server.use(API_BASE_PATH + '/annoncements', annoncements);
 server.use(API_BASE_PATH + '/events', events);
 
 
-// Create Https server
-https.createServer({
-  key: fs.readFileSync('./ssl/key.pem'),
-  cert: fs.readFileSync('./ssl/cert.pem')
-}, server).listen((process.env.port || 5000), function() {
-    console.info('Https server running on https://localhost:' + (process.env.port || 5000));
-});
+// // Create Https server
+// https.createServer({
+//   key: fs.readFileSync('./ssl/key.pem'),
+//   cert: fs.readFileSync('./ssl/cert.pem')
+// }, server).listen(process.env.port || 5000), function() {
+//     console.info('Https server running on https://localhost:' + (process.env.port || 5000));
+// });
+
+// Create Http server
+server.listen(process.env.port || 5000, function(){
+    console.info('Http server running on http://localhost:' + (process.env.port || 5000));
+})
+
 
