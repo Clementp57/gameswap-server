@@ -68,7 +68,7 @@ server.use(API_BASE_PATH + '/events', events);
 // });
 
 // Create Http server
-server.listen(process.env.port || 5000, function(){
+server.listen((process.env.port || 5000), function(){
     console.info('Http server running on http://localhost:' + (process.env.port || 5000));
 })
 
