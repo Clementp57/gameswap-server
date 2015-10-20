@@ -63,7 +63,7 @@ server.use(API_BASE_PATH + '/events', events);
 https.createServer({
   key: fs.readFileSync('./ssl/key.pem'),
   cert: fs.readFileSync('./ssl/cert.pem')
-}, server).listen((process.env.port || 55555), function() {
-    console.info('Https server running on https://localhost:' + (process.env.port || 55555));
+}, server).listen((process.env.port || 5000), function() {
+    console.info('Https server running on https://localhost:' + (process.env.port || 5000));
 });
 
