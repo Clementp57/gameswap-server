@@ -4,7 +4,6 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var User = require('../models/User.js');
 
-var API_BASE_PATH = "/api/v1";
 /* GET /users listing. */
 router.get('/', function(req, res) {
     // http://mongoosejs.com/docs/api.html#query_Query-find
@@ -29,7 +28,7 @@ router.get('/:id', function(req, res) {
     });
 });
 /* PUT /users/id */
-router.put(':id', function(req, res) {
+router.put('/:id', function(req, res) {
     // http://mongoosejs.com/docs/api.html#model_Model.findById
     User.findById(req.params.id, function(err, user) {
         user.firstName = req.body.firstName;
