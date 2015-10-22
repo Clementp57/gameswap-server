@@ -5,6 +5,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     fs = require('fs'),
     https = require('https'),
+    morgan = require('morgan'),
     
     routes = require('./routes/index'),
     public_routes = require('./routes/public'),
@@ -26,12 +27,25 @@ mongoose.connect(process.env.MONGOLAB_URI, function(error) {
 var API_BASE_PATH = "/api/v1";
 
 var server = express();
+server.use(morgan('combined'));
 
-server.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+// Add headers
+server.use(function (req, res, next) {
+
+    // Allowing all clients to connect :/
+    res.header('Access-Control-Allow-Origin', '*');
+
+    // Allowed Request methods
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Allowed request headers
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type, x-access-token');
+    res.header('Access-Control-Allow-Credentials', true);
+
+  
     next();
-}); 
+});
+
 
 server.use(bodyParser.json()); // support json encoded bodies
 

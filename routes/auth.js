@@ -3,7 +3,7 @@ var jwt = require('jwt-simple');
 var auth = {
  
   login: function(req, res) {
-    console.log(req.body.firstName + "Requested login...");
+    console.log(req.body.firstName + "Requested login. IP ["+ req.connection.remoteAddress + "]");
     var username = req.body.firstName || '';
  
     // if (username == '' || password == '') {
