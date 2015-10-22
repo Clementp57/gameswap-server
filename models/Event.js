@@ -6,6 +6,9 @@ var Event = new mongoose.Schema({
         title: String,
         image: String,
         descript: String,
+        game: String,
+        plateform: String,
+        date: String,
         place: String
     });
 
