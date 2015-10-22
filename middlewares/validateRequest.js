@@ -8,15 +8,13 @@ module.exports = function(req, res, next) {
   // is safe. 
  
   // We skip the token outh for [OPTIONS] requests.
-  //if(req.method == 'OPTIONS') next();
- 
-  var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
-  var key = (req.body && req.body.x_key) || (req.query && req.query.x_key) || req.headers['x-key'];
- 
-  if (token || key) {
+  if(req.method == 'OPTIONS') next();
+
+  var token = req.headers['x-access-token'];
+  console.log(token);
+  if (token) {
     try {
       var decoded = jwt.decode(token, require('../config/secret.js')());
- 
       if (decoded.exp <= Date.now()) {
         res.status(400);
         res.json({
@@ -25,12 +23,10 @@ module.exports = function(req, res, next) {
         });
         return;
       }
- 
       // Authorize the user to see if s/he can access our resources
- 
-      var dbUser = validateUser(key); // The key would be the logged in user's username
+      var dbUser = validateUser(token); // The key would be the logged in user's username
+      console.log(dbUser);
       if (dbUser) {
- 
  
         if ((req.url.indexOf('admin') >= 0 && dbUser.role == 'admin') || (req.url.indexOf('admin') < 0 && req.url.indexOf('/api/v1/') >= 0)) {
           next(); // To move to next middleware
