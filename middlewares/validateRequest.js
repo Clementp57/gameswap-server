@@ -9,7 +9,9 @@ module.exports = function(req, res, next) {
  
   // We skip the token outh for [OPTIONS] requests.
   if(req.method == 'OPTIONS') next();
+
   var token = req.headers['x-access-token'];
+  console.log(token);
   if (token) {
     try {
       var decoded = jwt.decode(token, require('../config/secret.js')());
