@@ -28,27 +28,7 @@ var API_BASE_PATH = "/api/v1";
 
 var server = express();
 server.use(morgan('combined'));
-
-// Add headers
-server.use(function (req, res, next) {
-
-    // Allowing all clients to connect :/
-    res.header('Access-Control-Allow-Origin', '*');
-
-    // Allowed Request methods
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-    // Allowed request headers
-    res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type, x-access-token');
-    res.header('Access-Control-Allow-Credentials', true);
-
-  
-    next();
-});
-
-
 server.use(bodyParser.json()); // support json encoded bodies
-
 server.use(bodyParser.urlencoded({
     extended: true
 })); // support encoded bodies
@@ -59,12 +39,36 @@ server.get(API_BASE_PATH, function(req, res) {
     });
 });
 
+server.all('*', function(req, res, next) {
+    var headers = {};
+    // IE8 does not allow domains to be specified, just the *
+    // headers["Access-Control-Allow-Origin"] = req.headers.origin;
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Credentials", false);
+    res.setHeader("Access-Control-Max-Age", '86400'); // 24 hours
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, x-access-token");
+
+    //Handling preflight requests
+    if (req.method === 'OPTIONS') {
+        res.status(200);
+        res.end();
+    }
+    next();
+});
+
+// Public routes
+server.all('/public/*', public_routes);
+
+
 // Auth Middleware - This will check if the token is valid
 // Only the requests that start with /api/v1/* will be checked for the token.
 // Any URL's that do not follow the below pattern should be avoided unless you 
 // are sure that authentication is not needed
-server.all('/login', public_routes);
-server.all(API_BASE_PATH + '/*' , [require('./middlewares/validateRequest')]);
+server.all(API_BASE_PATH + '/*' , [
+    require('./middlewares/validateToken'),
+    require('./middlewares/validateRequest')
+]);
 
 server.use(express.static(__dirname + '/'));
 server.use(API_BASE_PATH, routes);
@@ -73,6 +77,7 @@ server.use(API_BASE_PATH + '/annoncements', annoncements);
 server.use(API_BASE_PATH + '/events', events);
 
 
+// REMOVE FOR HTTPS
 // // Create Https server
 // https.createServer({
 //   key: fs.readFileSync('./ssl/key.pem'),
@@ -81,7 +86,7 @@ server.use(API_BASE_PATH + '/events', events);
 //     console.info('Https server running on https://localhost:' + (process.env.port || 5000));
 // });
 
-// Create Http server
+// Creating Http server
 server.listen((process.env.PORT || 5000), function(){
     console.info('Http server running on http://localhost:' + (process.env.PORT || 5000));
 })

@@ -1,9 +1,8 @@
 var jwt = require('jwt-simple');
- 
 var auth = {
  
   login: function(req, res) {
-    console.log(req.body.firstName + "Requested login. IP ["+ req.connection.remoteAddress + "]");
+    console.log(req.body.firstName + " Requested login. IP ["+ req.connection.remoteAddress + "]");
     var username = req.body.firstName || '';
  
     // if (username == '' || password == '') {
@@ -33,6 +32,7 @@ var auth = {
       // If authentication is success, we will generate a token
       // and dispatch it to the client
       console.log('Delivering JWT to user:' + username);
+      res.status(200);
       res.json(genToken(dbUserObj));
     }
  
