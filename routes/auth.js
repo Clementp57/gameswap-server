@@ -72,9 +72,9 @@ var auth = {
       return errorCallback();
     } 
     console.log(email);
-    User.findOne({ 'email' : email }, function (err, user) {
+    User.findOne({ 'email' : email }, 'name email', function (err, user) {
       console.log('error=>'+err, ' USER =>'+user);
-      if(err || !user) {
+      if(err) {
         return errorCallback(err);
       } else {
         return successCallback(user);
