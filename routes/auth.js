@@ -72,14 +72,19 @@ var auth = {
       return errorCallback();
     } 
     console.log(email);
-    User.findOne({ 'email' : email }, 'name email', function (err, user) {
-      console.log('error=>'+err, ' USER =>'+user);
-      if(err) {
-        return errorCallback(err);
-      } else {
-        return successCallback(user);
-      }
+
+    User.find(function(err, users) {
+        console.log(users);
+        User.findOne({ 'email' : email }, 'name email', function (err, user) {
+          console.log('error=>'+err, ' USER =>'+user);
+          if(err) {
+            return errorCallback(err);
+          } else {
+            return successCallback(user);
+          }
+        });
     });
+    
   },
  
   validateUser: function(email, successCallback, errorCallback) {
