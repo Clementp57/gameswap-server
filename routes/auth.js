@@ -68,7 +68,9 @@ var auth = {
   },
  
   validate: function(email, successCallback, errorCallback) {
-    if(!email) return errorCallback();
+    if(!email) {
+      return errorCallback();
+    } 
     User.findOne({ 'email' : email }, 'name email', function (err, user) {
       console.log('error=>'+err, ' USER =>'+user);
       if(err) {
