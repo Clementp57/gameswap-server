@@ -5,8 +5,11 @@ var Event = new mongoose.Schema({
         creator: String,
         title: String,
         image: String,
-        descript: String,
-        place: String
+        description: String,
+        game: String,
+        plateform: String,
+        date: String,
+        coords: Object
     });
 
 module.exports = mongoose.model('Event', Event);

@@ -47,7 +47,7 @@ server.all('*', function(req, res, next) {
     res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
     res.setHeader("Access-Control-Allow-Credentials", false);
     res.setHeader("Access-Control-Max-Age", '86400'); // 24 hours
-    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, x-access-token");
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, x-access-token, x-email");
 
     //Handling preflight requests
     if (req.method === 'OPTIONS') {

@@ -1,12 +1,11 @@
 var jwt = require('jwt-simple');
+var User = require('../models/User.js');
 var auth = {
  
   login: function(req, res) {
-    console.log(req.body.firstName + " Requested login. IP ["+ req.connection.remoteAddress + "]");
-    var username = req.body.firstName || '';
- 
-    // if (username == '' || password == '') {
-    if(username == '') {
+    console.log(req.body.email + " Requested login. IP ["+ req.connection.remoteAddress + "]");
+    var email = req.body.email || null;
+    if(!email) {
       res.status(401);
       res.json({
         "status": 401,
@@ -16,48 +15,76 @@ var auth = {
     }
  
     // Fire a query to your DB and check if the credentials are valid
-    var dbUserObj = auth.validate(username);
-   
-    if (!dbUserObj) { // If authentication fails, we send a 401 back
+    auth.validate(email, function(user) {
+      // If authentication is success, we will generate a token
+      // and dispatch it to the client
+      console.log('Delivering JWT to user:' + email);
+      res.status(200);
+      res.json(genToken(user));
+    }, function() {
       res.status(401);
       res.json({
         "status": 401,
         "message": "Invalid credentials"
       });
       return;
-    }
- 
-    if (dbUserObj) {
- 
-      // If authentication is success, we will generate a token
-      // and dispatch it to the client
-      console.log('Delivering JWT to user:' + username);
-      res.status(200);
-      res.json(genToken(dbUserObj));
-    }
- 
+    }, function(error) {
+      // TODO : create user if not found
+    });
+
   },
- 
-  validate: function(username) {
-    // spoofing the DB response for simplicity
-    var dbUserObj = { // spoofing a userobject from the DB. 
-      firstName: username
+
+  register: function(req, res) {
+    // console.log('Registering', JSON.parse(req.body));
+    var user = req.body;
+
+    if(!user.email) {
+      res.status(401);
+      res.json({
+        "status": 401,
+        "message": "No email provided"
+      });
+      return;
     };
 
-    
-    
-    return dbUserObj;
+    auth.validate(user.email, function(){
+      console.info('New user, registering');
+      var newUser = {
+        name : {
+          first: user.name.first,
+          last: user.name.last
+        },
+        email : user.email
+      };
+
+      var dbUser = new User(newUser);
+      dbUser.save(function(obj) {
+        console.log('Delivering JWT to user:' + obj);
+        res.status(200);
+        res.json(genToken(dbUser));
+      });
+    });
+
   },
  
-  validateUser: function(username) {
-    // spoofing the DB response for simplicity
-    var dbUserObj = { // spoofing a userobject from the DB. 
-      name: 'arvind',
-      role: 'admin',
-      username: 'arvind@myapp.com'
-    };
+  validate: function(email, successCallback, errorCallback) {
+    if(!email) return errorCallback();
+    User.findOne({ 'email' : email }, 'name email', function (err, user) {
+      console.log('error=>'+err, ' USER =>'+user);
+      if(err) {
+        return errorCallback(err);
+      } else {
+        return successCallback(user);
+      }
+    });
+  },
  
-    return dbUserObj;
+  validateUser: function(email, successCallback, errorCallback) {
+    auth.validate(email, function(user) {
+      return successCallback(user);
+    }, function(error) {
+      return errorCallback(user);
+    });
   },
 }
  

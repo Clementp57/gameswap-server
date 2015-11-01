@@ -2,8 +2,11 @@ var mongoose = require('mongoose');
 
 var Users = new mongoose.Schema({
     id: String,
-    firstName: String,
-    lastName: String
+    name : {
+    	first: String,
+    	last: String
+    },
+    email: String
 });
 
 module.exports = mongoose.model('User', Users);

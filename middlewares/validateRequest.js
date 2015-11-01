@@ -4,11 +4,11 @@ var validateToken = require('./validateToken');
 module.exports = function(req, res, next) {
 
   // Authorize the user to see if s/he can access our resources
-  var dbUser = validateUser('coucou'); // OULALALALA ^
-  console.log(dbUser);
-  if (dbUser) {
-
-    if ((req.url.indexOf('admin') >= 0 && dbUser.role == 'admin') || (req.url.indexOf('admin') < 0 && req.url.indexOf('/api/v1/') >= 0)) {
+  var email = req.headers['x-email'] || null;
+  console.log(email);
+  validateUser(email, function(user) {
+    if (user) {
+      console.log('Authorized '+user);
       next(); // To move to next middleware
     } else {
       res.status(403);
@@ -18,7 +18,7 @@ module.exports = function(req, res, next) {
       });
       return;
     }
-  } else {
+  }, function(error){
     // No user with this name exists, respond back with a 401
     res.status(401);
     res.json({
@@ -26,5 +26,5 @@ module.exports = function(req, res, next) {
       "message": "Invalid User"
     });
     return;
-  }
+  }); 
 };
