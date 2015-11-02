@@ -27,7 +27,6 @@ var auth = {
         "status": 401,
         "message": "Invalid credentials"
       });
-      return;
     });
 
   },
