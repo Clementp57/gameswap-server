@@ -44,7 +44,9 @@ var auth = {
       return;
     };
 
-    auth.validate(user.email, function(){
+    auth.validate(user.email, function() {
+      // User already registered ... shit
+    }, function(){
       console.info('New user, registering');
       var newUser = {
         name : {
@@ -70,7 +72,6 @@ var auth = {
     } 
     User.findOne({ 'email' : email }, 'name email', function (err, user) {
       if(err || !user) {
-        console.log(errorCallback);
         return errorCallback(err);
       } else {
         return successCallback(user);
