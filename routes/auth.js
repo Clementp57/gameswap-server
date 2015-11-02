@@ -21,7 +21,7 @@ var auth = {
       console.log('Delivering JWT to user:' + email);
       res.status(200);
       res.json(genToken(user));
-    }, function() {
+    }, function(error) {
       res.status(401);
       res.json({
         "status": 401,
