@@ -28,8 +28,6 @@ var auth = {
         "message": "Invalid credentials"
       });
       return;
-    }, function(error) {
-      // TODO : create user if not found
     });
 
   },
