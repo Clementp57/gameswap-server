@@ -2,14 +2,15 @@ var mongoose = require('mongoose');
 
 var Event = new mongoose.Schema({
         id: String,
-        creator: String,
+        creatorId: String,
         title: String,
-        image: String,
         description: String,
+        details: String,
         game: String,
         plateform: String,
         date: String,
-        coords: Object
+        coords: Object,
+        participantNb: Number
     });
 
 module.exports = mongoose.model('Event', Event);
