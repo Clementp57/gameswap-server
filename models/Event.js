@@ -4,13 +4,16 @@ var Event = new mongoose.Schema({
         id: String,
         creatorId: String,
         title: String,
+        date: String,
+        creationDate: String,
         description: String,
         details: String,
         game: String,
         plateform: String,
         date: String,
         coords: Object,
-        participantNb: Number
+        participantNb: Number,
+        locationName: String
     });
 
 module.exports = mongoose.model('Event', Event);
