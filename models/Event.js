@@ -14,7 +14,8 @@ var Event = new mongoose.Schema({
         coords: Object,
         participantNb: Number,
         locationName: String,
-        poster: String
+        poster: String,
+        userPic: String
     });
 
 module.exports = mongoose.model('Event', Event);
