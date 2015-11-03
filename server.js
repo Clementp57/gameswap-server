@@ -30,9 +30,10 @@ var server = express();
 server.use(morgan('combined'));
 server.use(bodyParser.json()); // support json encoded bodies
 server.use(bodyParser.urlencoded({
+    limit: '50mb',
     extended: true
 })); // support encoded bodies
-server.use(bodyParser({limit: '50mb'}));
+app.use(bodyParser.json({limit: '50mb'}));
 
 server.get(API_BASE_PATH, function(req, res) {
     res.status(200).json({
