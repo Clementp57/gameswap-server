@@ -35,15 +35,26 @@ router.put('/:id', function(req, res) {
 });
 
 router.delete('/:id', function(req, res) {
-
     Event.findById(req.params.id, function(err, event) {
-
         event.remove(function(err, event) {
             res.json(200, {
                 msg: 'OK'
             });
         });
     });
+});
+
+// CUSTOM
+router.post('/:id/like', function(req, res) {
+    Event.findById(req.params.id, function(err, event) {
+
+        event.likes = event.title++;
+        event.descript = req.body.descript;
+        event.save(function(err, event) {
+            res.json(200, event);
+        });
+    });
+   
 });
 
 module.exports = router;
