@@ -32,7 +32,7 @@ server.use(bodyParser.json()); // support json encoded bodies
 server.use(bodyParser.urlencoded({
     extended: true
 })); // support encoded bodies
-server.use(express.bodyParser({limit: '50mb'}));
+server.use(bodyParser({limit: '50mb'}));
 
 server.get(API_BASE_PATH, function(req, res) {
     res.status(200).json({
