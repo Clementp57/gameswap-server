@@ -77,7 +77,7 @@ var auth = {
     auth.validate(email, function(user) {
       return successCallback(user);
     }, function(error) {
-      return errorCallback(user);
+      return errorCallback(error);
     });
   },
 }
