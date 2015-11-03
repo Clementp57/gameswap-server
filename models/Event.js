@@ -13,7 +13,8 @@ var Event = new mongoose.Schema({
         date: String,
         coords: Object,
         participantNb: Number,
-        locationName: String
+        locationName: String,
+        poster: String
     });
 
 module.exports = mongoose.model('Event', Event);
