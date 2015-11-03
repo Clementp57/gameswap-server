@@ -48,16 +48,8 @@ var auth = {
       // User already registered ... shit
     }, function(){
       console.info('New user, registering');
-      var newUser = {
-        name : {
-          first: user.name.first,
-          last: user.name.last
-        },
-        email : user.email
-      };
 
-      var dbUser = new User(newUser);
-      console.log("DB USER ===>",dbUser);
+      var dbUser = new User(user);
       dbUser.save(function(obj) {
         console.log('Delivering JWT to user:' + obj);
         res.status(200);
