@@ -57,6 +57,7 @@ var auth = {
       };
 
       var dbUser = new User(newUser);
+      console.log("DB USER ===>",dbUser);
       dbUser.save(function(obj) {
         console.log('Delivering JWT to user:' + obj);
         res.status(200);
