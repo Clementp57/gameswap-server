@@ -28,9 +28,9 @@ var API_BASE_PATH = "/api/v1";
 
 var server = express();
 server.use(morgan('combined'));
-server.use(bodyParser.json({limit: '50mb'})); // support json encoded bodies
+server.use(bodyParser.json({limit: '5mb'})); // support json encoded bodies
 server.use(bodyParser.urlencoded({
-    limit: '50mb',
+    limit: '5mb',
     extended: true
 })); // support encoded bodies
 
