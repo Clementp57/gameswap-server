@@ -3,6 +3,8 @@ var router = express.Router();
 
 var mongoose = require('mongoose');
 var Event = require('../models/Event.js');
+var Comment = require('../models/Comment.js');
+
 
 router.get('/', function(req, res) {
     Event.find(function(err, events) {
@@ -12,7 +14,7 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res) {
     var event = new Event(req.body);
-    event.id = event._id;
+    event.nbComment = 0;
     event.save(function(err) {
         res.json(200, err);
     });
@@ -44,17 +46,40 @@ router.delete('/:id', function(req, res) {
     });
 });
 
-// CUSTOM
-router.post('/:id/like', function(req, res) {
-    Event.findById(req.params.id, function(err, event) {
+// NESTED (Comment)
+router.get('/:id/comments', function(req, res) {
+    // Get all comments for the event
+    Comment.find({
+        eventId: req.params.id
+    }, function(err, comments) {
+        res.status(200).json(comments);
+    });
+});
 
-        event.likes = event.title++;
-        event.descript = req.body.descript;
-        event.save(function(err, event) {
-            res.json(200, event);
+router.post('/comments', function(req, res) {
+    // Add comment for the post
+    var comment = new Comment(req.body);
+    comment.save(function(err) {
+        var eventId = comment.eventId;
+        Event.findById(eventId, function(err, event) {
+            event.nbComment = event.nbComment++;
+            event.save(function(err, event) {
+                res.json(200, event);
+            });
         });
     });
-   
 });
+
+router.delete('/comments/:id', function(req, res) {
+    // Delete comment
+    Comment.findById(req.params.id, function(err, comment) {
+        comment.remove(function(err, comment) {
+            res.json(200, {
+                msg: 'OK'
+            });
+        });
+    });
+})
+
 
 module.exports = router;

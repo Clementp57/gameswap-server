@@ -13,8 +13,8 @@ router.get('/', function(req, res) {
 router.post('/', function(req, res) {
         var annoncement = new Annoncement(req.body);
         annoncement.id = annoncement._id;
-        annoncement.save(function(err) {
-            res.json(200, err);
+        annoncement.save(function(error, ancmt) {
+            res.json(200, ancmt);
         });
     });
 
