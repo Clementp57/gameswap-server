@@ -4,7 +4,7 @@ var Event = new mongoose.Schema({
         id: String,
         creatorId: String,
         title: String,
-        date: date,
+        date: Date,
         creationDate: Date,
         description: String,
         details: String,
