@@ -7,7 +7,7 @@ var Comment = require('../models/Comment.js');
 
 
 router.get('/', function(req, res) {
-    Event.find(function(err, events) {
+    Event.find({ date : { $gt : new Date()}}function(err, events) {
         res.status(200).json(events);
     });
 });
@@ -15,8 +15,8 @@ router.get('/', function(req, res) {
 router.post('/', function(req, res) {
     var event = new Event(req.body);
     event.nbComment = 0;
-    event.save(function(err) {
-        res.json(200, err);
+    event.save(function(event, err) {
+        res.json(200, event);
     });
 });
 
