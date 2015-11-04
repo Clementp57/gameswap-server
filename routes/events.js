@@ -8,9 +8,10 @@ var Comment = require('../models/Comment.js');
 
 router.get('/', function(req, res) {
     var date = new Date().toISOString();
-    Event.find({ 'date' : { $gte : date}}, function(err, events) {
-        res.status(200).json(events);
-    });
+    Event.find({ 'date' : { $gte : date}}).sort({date: 'ascending'})
+        .exec(function(err, events) {
+            res.status(200).json(events);
+        });
 });
 
 router.post('/', function(req, res) {
