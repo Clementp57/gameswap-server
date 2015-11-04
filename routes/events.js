@@ -7,7 +7,8 @@ var Comment = require('../models/Comment.js');
 
 
 router.get('/', function(req, res) {
-    Event.find({ date : { $gt : new Date()}}function(err, events) {
+    var date = new Date();
+    Event.find({ date : { $gt : date}}, function(err, events) {
         res.status(200).json(events);
     });
 });
