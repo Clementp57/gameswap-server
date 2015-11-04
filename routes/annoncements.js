@@ -11,12 +11,6 @@ router.get('/', function(req, res) {
             res.status(200).json(ancmts);
         });
     });
-
-
-    Event.find({ 'date' : { $gte : date}}).sort({date: 'ascending'})
-        .exec(function(err, events) {
-            res.status(200).json(events);
-        });
 });
 
 router.post('/', function(req, res) {
