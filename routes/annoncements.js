@@ -6,7 +6,7 @@ var Annoncement = require('../models/Annoncement.js');
 
 router.get('/', function(req, res) {
     var date = new Date().toISOString();
-    Annoncement.find({ 'date' : { $gte : date}}).sort({date: 'ascending'})
+    Annoncement.find().sort({date: 'ascending'})
         .exec(function(err, ancmts) {
             res.status(200).json(ancmts);
         });
