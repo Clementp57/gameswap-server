@@ -9,7 +9,7 @@ var Annoncements = new mongoose.Schema({
         game: String,
         description: String,
         coords: Object,
-        date : String
+        date : Date
     })
 
 module.exports = mongoose.model('Annoncement', Annoncements);

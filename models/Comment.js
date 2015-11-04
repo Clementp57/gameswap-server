@@ -4,7 +4,7 @@ var Comment = new mongoose.Schema({
         id: String,
         authorId: String,
         content: String,
-        date: String,
+        date: Date,
         eventId: String,
         authorPicture: String
     });
