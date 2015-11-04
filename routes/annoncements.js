@@ -10,7 +10,6 @@ router.get('/', function(req, res) {
         .exec(function(err, ancmts) {
             res.status(200).json(ancmts);
         });
-    });
 });
 
 router.post('/', function(req, res) {
