@@ -5,9 +5,18 @@ var mongoose = require('mongoose');
 var Annoncement = require('../models/Annoncement.js');
 
 router.get('/', function(req, res) {
-    Annoncement.find(function(err, annoncements) {
-        res.status(200).json(annoncements);
+    var date = new Date().toISOString();
+    Annoncement.find({ 'date' : { $gte : date}}).sort({date: 'ascending'})
+        .exec(function(err, ancmts) {
+            res.status(200).json(ancmts);
+        });
     });
+
+
+    Event.find({ 'date' : { $gte : date}}).sort({date: 'ascending'})
+        .exec(function(err, events) {
+            res.status(200).json(events);
+        });
 });
 
 router.post('/', function(req, res) {

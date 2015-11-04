@@ -16,7 +16,8 @@ var Event = new mongoose.Schema({
         locationName: String,
         poster: String,
         userPic: String,
-        nbComment: Number
+        nbComment: Number,
+        likes
     });
 
 module.exports = mongoose.model('Event', Event);
