@@ -4,7 +4,7 @@ var Annoncements = new mongoose.Schema({
         id: String,
         title: String,
         img : String,
-        creator: String,
+        creatorId : String,
         plateform : String,
         game: String,
         description: String,
