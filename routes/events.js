@@ -10,7 +10,15 @@ var User = require('../models/User.js');
 
 router.get('/', function(req, res) {
     var date = new Date().toISOString();
-    Event.find({ 'date' : { $gte : date}}).sort({date: 'ascending'})
+    Event.find({ 'date' : { $gte : date}, 'state': 'validated'}).sort({date: 'ascending'})
+        .exec(function(err, events) {
+            res.status(200).json(events);
+        });
+});
+
+router.get('/pendings', function(req, res) {
+    var date = new Date().toISOString();
+    Event.find({ 'date' : { $gte : date}, 'state': 'pending'}).sort({date: 'ascending'})
         .exec(function(err, events) {
             res.status(200).json(events);
         });

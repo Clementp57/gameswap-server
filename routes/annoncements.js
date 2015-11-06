@@ -7,14 +7,18 @@ var User = require('../models/User.js');
 var mailer = require('../services/mailer.js');
 
 router.get('/', function(req, res) {
-    console.log('TRYIN to get ALL ANNONCEMENTS');
-    var date = new Date().toISOString();
-    Annoncement.find().sort({date: 'descending'})
+    Annoncement.find({ state: 'validated' }).sort({date: 'descending'})
         .exec(function(err, ancmts) {
-            console.log("ANNONCEMENTS" ,ancmts);
             res.status(200).json(ancmts);
         });
 });
+
+router.get('/pendings', function(req, res) {
+    Annoncement.find({ state: 'pending' }).sort({date: 'descending'})
+        .exec(function(err, ancmts) {
+            res.status(200).json(ancmts);
+        });
+})
 
 router.post('/', function(req, res) {
     var annoncement = new Annoncement(req.body);

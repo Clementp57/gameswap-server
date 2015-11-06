@@ -2,9 +2,9 @@ var validateUser = require('../routes/auth').validateUser;
 var validateToken = require('./validateToken');
  
 module.exports = function(req, res, next) {
-
-  if(req.headers['x-admin']) {
-    next();
+  if(req.headers['x-admin'] && req.headers['x-admin'] == 'true') {
+    console.log('ADMIN AUTHORIZED');
+    return next();
   }
   // Authorize the user to see if s/he can access our resources
   var email = req.headers['x-email'] || null;

@@ -7,19 +7,19 @@ app.config(['$routeProvider',
 			templateUrl: 'templates/login.html',
 			controller: 'LoginController'
 		})
-		.when('/home', {
-			templateUrl: 'templates/home.html',
+		.when('/annoncements', {
+			templateUrl: 'templates/ancmts.html',
 			controller: 'HomeController'
 		});
 
 		$routeProvider.otherwise({
-			redirectTo: '/'
+			redirectTo: '/annoncements'
 		});
 	}
 ]);
 
 app.factory('AnnoncementService', function($window, $resource) {
-	var ancmtEndPoint = 'http://emm-project3.herokuapp.com/api/v1/annoncements/:id';
+	var ancmtEndPoint = 'http://localhost:5000/api/v1/annoncements/:id';
 
     return $resource(ancmtEndPoint);
 });
@@ -44,11 +44,11 @@ app.controller('LoginController', function($scope, $http, $window, $location) {
 			console.error('failed to log user : ', error);
 		});
 	}
-}).controller('HomeController', function(AnnoncementService, $http, $window) {
+}).controller('HomeController', function(AnnoncementService, $http, $window, $scope) {
 	$http.defaults.headers.common['x-access-token']= $window.localStorage.server_token;
 	$http.defaults.headers.common['x-admin']= true;
 	AnnoncementService.query().$promise.then(function(data) {
-		console.log(data);
+		$scope.ancmts = data;
 	});
 
 });
