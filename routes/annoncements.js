@@ -7,6 +7,7 @@ var User = require('../models/User.js');
 var mailer = require('../services/mailer.js');
 
 router.get('/', function(req, res) {
+    console.log('TRYIN to get ALL ANNONCEMENTS');
     var date = new Date().toISOString();
     Annoncement.find().sort({date: 'descending'})
         .exec(function(err, ancmts) {
