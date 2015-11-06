@@ -4,7 +4,6 @@ var validateToken = require('./validateToken');
 module.exports = function(req, res, next) {
 
   if(req.headers['x-admin']) {
-    console.log('admin => authorizing');
     next();
   }
   // Authorize the user to see if s/he can access our resources
