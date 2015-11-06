@@ -71,14 +71,23 @@ app.controller('NavController', function($location, $scope) {
 
 	$scope.validate = function(id) {
 		$http.post('http://emm-project3.herokuapp.com/api/v1/annoncements/'+id+'/validate').success(function() {
-			console.log('success !!!');
+			removeAncmt(id);
 		});
 	};
 
 	$scope.revoke = function(id, reason) {
 		$http.post('http://emm-project3.herokuapp.com/api/v1/annoncements/'+id+'/revoke?reason='+reason).success(function() {
-			console.log('success !!!');
+			removeAncmt(id);
 		});
+	}
+
+	var removeAncmt = function(id) {
+		for(var i=0; i< $scope.ancmts.length; i++){
+			if($scope.ancmts[i]._id == id) {
+				delete $scope.ancmts[i];
+				break;
+			}
+		} 
 	}
 
 }).controller('EventsController', function(EventService, $http, $window, $scope) {
@@ -88,5 +97,26 @@ app.controller('NavController', function($location, $scope) {
 		console.log(data);
 		$scope.events = data;
 	});
+
+	$scope.validate = function(id) {
+		$http.post('http://emm-project3.herokuapp.com/api/v1/events/'+id+'/validate').success(function() {
+			removeEvent(id);
+		});
+	};
+
+	$scope.revoke = function(id, reason) {
+		$http.post('http://emm-project3.herokuapp.com/api/v1/events/'+id+'/revoke?reason='+reason).success(function() {
+			removeEvent(id);
+		});
+	}
+
+	var removeEvent = function(id) {
+		for(var i=0; i< $scope.events.length; i++){
+			if($scope.events[i]._id == id) {
+				delete $scope.events[i];
+				break;
+			}
+		} 
+	}
 
 });
