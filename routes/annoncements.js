@@ -7,10 +7,10 @@ var User = require('../models/User.js');
 var mailer = require('../services/mailer.js');
 
 router.get('/', function(req, res) {
-    console.log('trying to get all');
     var date = new Date().toISOString();
     Annoncement.find().sort({date: 'descending'})
         .exec(function(err, ancmts) {
+            console.log("ANNONCEMENTS" ,ancmts);
             res.status(200).json(ancmts);
         });
 });
