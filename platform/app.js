@@ -70,13 +70,13 @@ app.controller('NavController', function($location, $scope) {
 	});
 
 	$scope.validate = function(id) {
-		$http.post('http://localhost:5000/api/v1/annoncements/'+id+'/validate').success(function() {
+		$http.post('http://emm-project3.herokuapp.com/api/v1/annoncements/'+id+'/validate').success(function() {
 			console.log('success !!!');
 		});
 	};
 
 	$scope.revoke = function(id, reason) {
-		$http.post('http://localhost:5000/api/v1/annoncements/'+id+'/revoke?reason='+reason).success(function() {
+		$http.post('http://emm-project3.herokuapp.com/api/v1/annoncements/'+id+'/revoke?reason='+reason).success(function() {
 			console.log('success !!!');
 		});
 	}
