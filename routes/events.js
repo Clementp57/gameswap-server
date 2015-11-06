@@ -4,6 +4,8 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Event = require('../models/Event.js');
 var Comment = require('../models/Comment.js');
+var mailer = require('../services/mailer.js');
+var User = require('../models/User.js');
 
 
 router.get('/', function(req, res) {
@@ -17,8 +19,20 @@ router.get('/', function(req, res) {
 router.post('/', function(req, res) {
     var event = new Event(req.body);
     event.nbComment = 0;
-    event.save(function(event, err) {
-        res.json(200, event);
+    event.state = "pending";
+
+    event.save(function(err, event) {
+        User.findById(event.creatorId, function(err, user) {
+            var subject = "Votre evenement ["+ event.title + "] est en cours de validation";
+            var body = "Bonjour " + user.name.first + ",";
+            body += "<p>Votre évenement <b>" + event.title + "</b> est en cours de validation par nos équipes.";
+            body += "<br/> Vous recevrez un mail lorsque notre équipe l'aura validé.";
+            body += "<br/> Merci de votre confiance.";
+            body += "<br/><br/> L'équipe GameSwap.";
+            mailer.sendMail(user.email, subject, body, function() {
+                res.json(200, event);                
+            });
+        });
     });
 });
 

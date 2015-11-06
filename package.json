@@ -16,6 +16,8 @@
     "https": "^1.0.0",
     "jwt-simple": "^0.3.1",
     "mongoose": "^4.1.11",
-    "morgan": "^1.6.1"
+    "morgan": "^1.6.1",
+    "nodemailer": "^1.8.0",
+    "nodemailer-wellknown": "^0.1.7"
   }
 }
