@@ -21,22 +21,7 @@ app.config(['$routeProvider',
 app.factory('AnnoncementService', function($window, $resource) {
 	var ancmtEndPoint = 'http://emm-project3.herokuapp.com/api/v1/annoncements/:id';
 
-    return $resource(ancmtEndPoint, {
-      get: { 
-        method: 'GET',
-        params: {id : 'id'},
-        isArray: true,
-        headers: { 
-        	'x-access-token' : $window.localStorage.server_token,
-        	'x-admin': true
-        }
-      },
-     delete: {
-        method: 'DELETE',
-        params: {id : 'id'},
-        isArray: true
-      }
-    });
+    return $resource(ancmtEndPoint);
 });
 
 app.controller('LoginController', function($scope, $http, $window, $location) {
