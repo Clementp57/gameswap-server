@@ -118,17 +118,19 @@ router.post('/:id/revoke', function(req, res) {
     // Add comment for the post
     Event.findById(req.params.id, function(err, event) {
         event.state = "validated";
-        event.save(function(err, event) {
+        event.remove(function(err, event) {
             User.findById(event.creatorId, function(err, user) {
                 var subject = "Votre evenement ["+ event.title + "] n'a pas été validé";
                 var body = "Bonjour " + user.name.first + ",";
-                body += "<p>Votre évenement <b>" + event.title + "</b> n'a pas été validé par nos équipes.";
+                var reason = req.params.reason;
+                body += "<p>Votre évenement <b>" + event.title + "</b> n'a pas été validé par nos équipes pour la raison suivante '";
+                body += reason + "'."
                 body += "<br/> Nous vous conseillons de consulter les condition générales de notre application,";
                 body += "puis de reposter votre evenement modifié."
                 body += "<br/> Merci de votre confiance.";
                 body += "<br/><br/> L'équipe GameSwap.";
                 mailer.sendMail(user.email, subject, body, function() {
-                    res.json(200, event);                
+                    res.json(200, {msg: 'OK'});                
                 });
             });
         });

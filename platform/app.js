@@ -62,10 +62,16 @@ app.controller('LoginController', function($scope, $http, $window, $location) {
 	});
 
 	$scope.validate = function(id) {
-		$http.post('http://localhost:5000/api/v1/annoncements/'+id+'/revoke').success(function() {
+		$http.post('http://localhost:5000/api/v1/annoncements/'+id+'/validate').success(function() {
 			console.log('success !!!');
 		});
 	};
+
+	$scope.revoke = function(id, reason) {
+		$http.post('http://localhost:5000/api/v1/annoncements/'+id+'/revoke?reason='+reason).success(function() {
+			console.log('success !!!');
+		});
+	}
 
 }).controller('EventsController', function(EventService, $http, $window, $scope) {
 	$http.defaults.headers.common['x-access-token']= $window.localStorage.server_token;
