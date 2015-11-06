@@ -1,0 +1,34 @@
+<!-- <div class="container"> -->
+	<table class="table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>TITRE</th>
+				<th>IMAGE</th>
+				<th>ID AUTEUR</th>
+				<th>PLATEFORME</th>
+				<th>JEU</th>
+				<th>DESCRIPTION</th>
+				<th>DATE</th>
+				<th>ETAT</th>
+				<th>ACTIONS</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="ancmt in ancmts">
+				<td>{{ancmt._id}}</td>
+				<td>{{ancmt.title}}</td>
+				<td>TODO</td>
+				<td>{{ancmt.creatorId}}</td>
+				<td>{{ancmt.plateform}}</td>
+				<td>{{ancmt.game}}</td>
+				<td>{{ancmt.description}}</td>
+				<td>{{ancmt.date}}</td>
+				<td>{{ancmt.state}}</td>
+				<td>
+					<button ng-click="validate({{ancmt._id}})"> VALIDER </button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+<!-- </div> -->

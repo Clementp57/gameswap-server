@@ -94,6 +94,47 @@ router.post('/comments', function(req, res) {
     });
 });
 
+router.post('/:id/validate', function(req, res) {
+    // Add comment for the post
+    Event.findById(req.params.id, function(err, event) {
+        event.state = "validated";
+        event.save(function(err, event) {
+            User.findById(event.creatorId, function(err, user) {
+                var subject = "Votre evenement ["+ event.title + "] est en ligne";
+                var body = "Bonjour " + user.name.first + ",";
+                body += "<p>Votre évenement <b>" + event.title + "</b> a été validé par nos équipes.";
+                body += "<br/> Il apparaît désormais en ligne.";
+                body += "<br/> Merci de votre confiance.";
+                body += "<br/><br/> L'équipe GameSwap.";
+                mailer.sendMail(user.email, subject, body, function() {
+                    res.json(200, event);                
+                });
+            });
+        });
+    });
+});
+
+router.post('/:id/revoke', function(req, res) {
+    // Add comment for the post
+    Event.findById(req.params.id, function(err, event) {
+        event.state = "validated";
+        event.save(function(err, event) {
+            User.findById(event.creatorId, function(err, user) {
+                var subject = "Votre evenement ["+ event.title + "] n'a pas été validé";
+                var body = "Bonjour " + user.name.first + ",";
+                body += "<p>Votre évenement <b>" + event.title + "</b> n'a pas été validé par nos équipes.";
+                body += "<br/> Nous vous conseillons de consulter les condition générales de notre application,";
+                body += "puis de reposter votre evenement modifié."
+                body += "<br/> Merci de votre confiance.";
+                body += "<br/><br/> L'équipe GameSwap.";
+                mailer.sendMail(user.email, subject, body, function() {
+                    res.json(200, event);                
+                });
+            });
+        });
+    });
+});
+
 router.delete('/comments/:id', function(req, res) {
     // Delete comment
     Comment.findById(req.params.id, function(err, comment) {

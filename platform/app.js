@@ -9,7 +9,11 @@ app.config(['$routeProvider',
 		})
 		.when('/annoncements', {
 			templateUrl: 'templates/ancmts.html',
-			controller: 'HomeController'
+			controller: 'AncmtsController'
+		})
+		.when('/events', {
+			templateUrl: 'templates/events.html',
+			controller: 'EventsController'
 		});
 
 		$routeProvider.otherwise({
@@ -19,7 +23,13 @@ app.config(['$routeProvider',
 ]);
 
 app.factory('AnnoncementService', function($window, $resource) {
-	var ancmtEndPoint = 'http://localhost:5000/api/v1/annoncements/:id';
+	var ancmtEndPoint = 'http://localhost:5000/api/v1/annoncements/pendings/:id';
+
+    return $resource(ancmtEndPoint);
+});
+
+app.factory('EventService', function($window, $resource) {
+	var ancmtEndPoint = 'http://localhost:5000/api/v1/events/pendings/:id';
 
     return $resource(ancmtEndPoint);
 });
@@ -44,11 +54,25 @@ app.controller('LoginController', function($scope, $http, $window, $location) {
 			console.error('failed to log user : ', error);
 		});
 	}
-}).controller('HomeController', function(AnnoncementService, $http, $window, $scope) {
+}).controller('AncmtsController', function(AnnoncementService, $http, $window, $scope) {
 	$http.defaults.headers.common['x-access-token']= $window.localStorage.server_token;
 	$http.defaults.headers.common['x-admin']= true;
 	AnnoncementService.query().$promise.then(function(data) {
 		$scope.ancmts = data;
+	});
+
+	$scope.validate = function(id) {
+		$http.post('http://localhost:5000/api/v1/annoncements/'+id+'/revoke').success(function() {
+			console.log('success !!!');
+		});
+	};
+
+}).controller('EventsController', function(EventService, $http, $window, $scope) {
+	$http.defaults.headers.common['x-access-token']= $window.localStorage.server_token;
+	$http.defaults.headers.common['x-admin']= true;
+	EventService.query().$promise.then(function(data) {
+		console.log(data);
+		$scope.events = data;
 	});
 
 });

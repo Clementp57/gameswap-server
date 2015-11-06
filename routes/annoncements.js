@@ -67,4 +67,47 @@ router.delete('/:id', function(req, res) {
     });
 });
 
+router.post('/:id/validate', function(req, res) {
+    // Add comment for the post
+    Annoncement.findById(req.params.id, function(err, event) {
+        event.state = "validated";
+        event.descript = req.body.descript;
+        event.save(function(err, event) {
+            User.findById(event.creatorId, function(err, user) {
+                var subject = "Votre annonce ["+ annoncement.title + "] est en ligne";
+                var body = "Bonjour " + user.name.first + ",";
+                body += "<p>Votre Annonce <b>" + annoncement.title + "</b> a été validée par nos équipes.";
+                body += "<br/> Elle apparaît désormais en ligne.";
+                body += "<br/> Merci de votre confiance.";
+                body += "<br/><br/> L'équipe GameSwap.";
+                mailer.sendMail(user.email, subject, body, function() {
+                    res.json(200, event);                
+                });
+            });
+        });
+    });
+});
+
+router.post('/:id/revoke', function(req, res) {
+    // Add comment for the post
+    Annoncement.findById(req.params.id, function(err, event) {
+        event.state = "revoked";
+        event.descript = req.body.descript;
+        event.save(function(err, event) {
+            User.findById(event.creatorId, function(err, user) {
+                var subject = "Votre annonce ["+ annoncement.title + "] n'as pas été validé";
+                var body = "Bonjour " + user.name.first + ",";
+                body += "<p>Votre Annonce <b>" + annoncement.title + "</b> n'a pas été validée par nos équipes.";
+                body += "<br/> Nous vous conseillons de consulter les condition générales de notre application,";
+                body += "puis de reposter votre annonce modifiée."
+                body += "<br/> Merci de votre confiance.";
+                body += "<br/><br/> L'équipe GameSwap.";
+                mailer.sendMail(user.email, subject, body, function() {
+                    res.json(200, event);                
+                });
+            });
+        });
+    });
+});
+
 module.exports = router;
