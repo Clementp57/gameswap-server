@@ -9,6 +9,7 @@ var express = require('express'),
     
     routes = require('./routes/index'),
     public_routes = require('./routes/public'),
+    platform_routes = require('./routes/platform'),
     users = require('./routes/users'),
     events = require('./routes/events'),
     annoncements = require('./routes/annoncements');
@@ -60,6 +61,9 @@ server.all('*', function(req, res, next) {
 
 // Public routes
 server.all('/public/*', public_routes);
+
+// Platform
+server.all('/platform/*', platform_routes);
 
 
 // Auth Middleware - This will check if the token is valid
