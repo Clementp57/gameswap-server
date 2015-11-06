@@ -34,7 +34,15 @@ app.factory('EventService', function($window, $resource) {
     return $resource(ancmtEndPoint);
 });
 
-app.controller('LoginController', function($scope, $http, $window, $location) {
+app.controller('NavController', function($location, $scope) {
+	$scope.getClass = function (path) {
+	  if ($location.path().indexOf(path) != -1) {
+	    return 'active';
+	  } else {
+	    return '';
+	  }
+	}
+}).controller('LoginController', function($scope, $http, $window, $location) {
 	$scope.email = "";
 	$scope.password = "";
 

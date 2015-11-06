@@ -4,31 +4,38 @@
 			<tr>
 				<th>ID</th>
 				<th>TITRE</th>
-				<th>IMAGE</th>
-				<th>ID AUTEUR</th>
-				<th>PLATEFORME</th>
-				<th>JEU</th>
-				<th>DESCRIPTION</th>
+				<th>POSTER</th>
 				<th>DATE</th>
-				<th>ETAT</th>
+				<th>DETAILS</th>
+				<th>DESCRIPTION</th>
+				<th>LIEU</th>
 				<th>ACTIONS</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="ancmt in ancmts">
-				<td>{{ancmt._id}}</td>
-				<td>{{ancmt.title}}</td>
-				<td>TODO</td>
-				<td>{{ancmt.creatorId}}</td>
-				<td>{{ancmt.plateform}}</td>
-				<td>{{ancmt.game}}</td>
-				<td>{{ancmt.description}}</td>
-				<td>{{ancmt.date}}</td>
-				<td>{{ancmt.state}}</td>
+			<tr ng-repeat="event in events">
+				<td>{{event._id}}</td>
+				<td>{{event.title}}</td>
+				<td><img ng-src="{{event.poster}}" style="max-height:150px" alt=""></td>
+				<td>{{event.date}}</td>
+				<td>{{event.details}}</td>
+				<td>{{event.description}}</td>
+				<td>{{event.locationName}}</td>
 				<td>
-					<button ng-click="validate({{ancmt._id}})"> VALIDER </button>
+					<div class="btn-group" role="group">
+						<button class="btn btn-default btn-success" ng-click="validate(ancmt._id)">
+							Valider
+						</button>
+					   	 <button type="button" class="btn btn-default btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+					        Refuser
+					      <span class="caret"></span>
+					    </button>
+					    <ul class="dropdown-menu">
+					      <li><a ng-click="revoke(event._id, 'Contenu innaproprié')">Contenu innaproprié</a></li>
+					      <li><a ng-click="revoke(event._id, 'Contenu incohérent')">Contenu incohérent</a></li>
+					    </ul>
+					  </div>
 				</td>
 			</tr>
 		</tbody>
 	</table>
-<!-- </div> -->
