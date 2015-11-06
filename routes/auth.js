@@ -1,5 +1,7 @@
 var jwt = require('jwt-simple');
 var User = require('../models/User.js');
+var Admin = require('../models/Admin.js');
+var bcrypt = require('bcrypt');
 var auth = {
  
   login: function(req, res) {
@@ -29,6 +31,26 @@ var auth = {
       });
     });
 
+  },
+
+  platformLogin: function(req, res) {
+    console.log(req.body);
+    Admin.find({}, function(err, admin) {
+      console.log("admin => ",admin); 
+    });
+    Admin.findOne({ 'email' : req.body.email}, 'email password', function(err, admin) {
+      if(admin.validPassword(req.body.password)) {
+          console.log('Delivering JWT to ADMIN:' + admin.email);
+          res.status(200);
+          res.json(genToken(admin));
+      } else {
+          res.status(401);
+            res.json({
+              "status": 401,
+              "message": "Invalid credentials"
+            });
+      }
+    });
   },
 
   register: function(req, res) {

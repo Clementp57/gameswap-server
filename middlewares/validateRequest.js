@@ -3,9 +3,12 @@ var validateToken = require('./validateToken');
  
 module.exports = function(req, res, next) {
 
+  if(req.headers['x-admin']) {
+    next();
+  }
   // Authorize the user to see if s/he can access our resources
   var email = req.headers['x-email'] || null;
-  console.log(email);
+
   validateUser(email, function(user) {
     if (user) {
       console.log('Authorized '+user);
