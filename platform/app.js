@@ -23,13 +23,13 @@ app.config(['$routeProvider',
 ]);
 
 app.factory('AnnoncementService', function($window, $resource) {
-	var ancmtEndPoint = 'http://localhost:5000/api/v1/annoncements/pendings/:id';
+	var ancmtEndPoint = 'http://emm-project3.herokuapp.com/api/v1/annoncements/pendings/:id';
 
     return $resource(ancmtEndPoint);
 });
 
 app.factory('EventService', function($window, $resource) {
-	var ancmtEndPoint = 'http://localhost:5000/api/v1/events/pendings/:id';
+	var ancmtEndPoint = 'http://emm-project3.herokuapp.com/api/v1/events/pendings/:id';
 
     return $resource(ancmtEndPoint);
 });
