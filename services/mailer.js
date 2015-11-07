@@ -18,7 +18,7 @@ var sendMail = function(to, subject, html, callback) {
 
     // setup e-mail data with unicode symbols
     var mailOptions = {
-        from: 'GameSwap Team ✔ <gameswap.team@gmail.com>', // sender address
+        from: 'GameSwap Team <gameswap.team@gmail.com>', // sender address
         to: to, // list of receivers
         subject: subject, // Subject line
         html: html // html body
