@@ -13,6 +13,13 @@ router.get('/', function(req, res) {
         });
 });
 
+router.get('/forUser/:id', function(req, res) {
+    Annoncement.find({ creatorId: req.params.id }).sort({date: 'descending'})
+        .exec(function(err, ancmts) {
+            res.status(200).json(ancmts);
+        });
+});
+
 router.get('/pendings', function(req, res) {
     Annoncement.find({ state: 'pending' }).sort({date: 'descending'})
         .exec(function(err, ancmts) {
