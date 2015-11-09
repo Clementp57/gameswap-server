@@ -65,9 +65,11 @@ app.controller('NavController', function($location, $scope) {
 }).controller('AncmtsController', function(AnnoncementService, $http, $window, $scope) {
 	$http.defaults.headers.common['x-access-token']= $window.localStorage.server_token;
 	$http.defaults.headers.common['x-admin']= true;
-	AnnoncementService.query().$promise.then(function(data) {
-		$scope.ancmts = data;
-	});
+	var initialize = function() {
+		AnnoncementService.query().$promise.then(function(data) {
+			$scope.ancmts = data;
+		});
+	}
 
 	$scope.validate = function(id) {
 		$http.post('http://emm-project3.herokuapp.com/api/v1/annoncements/'+id+'/validate').success(function() {
@@ -85,18 +87,22 @@ app.controller('NavController', function($location, $scope) {
 		for(var i=0; i< $scope.ancmts.length; i++){
 			if($scope.ancmts[i]._id == id) {
 				delete $scope.ancmts[i];
+				initialize();
 				break;
 			}
 		} 
 	}
+	initialize();
 
 }).controller('EventsController', function(EventService, $http, $window, $scope) {
 	$http.defaults.headers.common['x-access-token']= $window.localStorage.server_token;
 	$http.defaults.headers.common['x-admin']= true;
-	EventService.query().$promise.then(function(data) {
-		console.log(data);
-		$scope.events = data;
-	});
+	var initialize= function() {
+		EventService.query().$promise.then(function(data) {
+			console.log(data);
+			$scope.events = data;
+		});
+	}
 
 	$scope.validate = function(id) {
 		$http.post('http://emm-project3.herokuapp.com/api/v1/events/'+id+'/validate').success(function() {
@@ -114,9 +120,12 @@ app.controller('NavController', function($location, $scope) {
 		for(var i=0; i< $scope.events.length; i++){
 			if($scope.events[i]._id == id) {
 				delete $scope.events[i];
+				initialize();
 				break;
 			}
 		} 
 	}
+
+	initialize();
 
 });

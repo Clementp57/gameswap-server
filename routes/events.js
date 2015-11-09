@@ -16,6 +16,14 @@ router.get('/', function(req, res) {
         });
 });
 
+router.get('/forUser/:id', function(req, res) {
+    console.log(req.params.id); 
+    Event.find({ creatorId: req.params.id }).sort({date: 'descending'})
+        .exec(function(err, events) {
+            res.status(200).json(events);
+        });
+});
+
 router.get('/pendings', function(req, res) {
     var date = new Date().toISOString();
     Event.find({ 'date' : { $gte : date}, 'state': 'pending'}).sort({date: 'ascending'})
