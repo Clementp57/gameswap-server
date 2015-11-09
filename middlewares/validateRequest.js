@@ -12,7 +12,7 @@ module.exports = function(req, res, next) {
   validateUser(email, function(user) {
     if (user) {
       console.log('Authorized '+user);
-      next(); // To move to next middleware
+      return next(); // To move to next middleware
     } else {
       res.status(403);
       res.json({

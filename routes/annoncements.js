@@ -14,6 +14,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/forUser/:id', function(req, res) {
+    console.log(req.params.id); 
     Annoncement.find({ creatorId: req.params.id }).sort({date: 'descending'})
         .exec(function(err, ancmts) {
             res.status(200).json(ancmts);

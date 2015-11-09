@@ -14,7 +14,7 @@ module.exports = function(req, res, next) {
         });
         return;
       }
-      next();
+      return next();
     } catch(error) {
       console.error('Failed checking token :' + error);
       res.status(500);

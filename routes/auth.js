@@ -1,7 +1,6 @@
 var jwt = require('jwt-simple');
 var User = require('../models/User.js');
 var Admin = require('../models/Admin.js');
-var bcrypt = require('bcrypt');
 var auth = {
  
   login: function(req, res) {
